@@ -12,7 +12,7 @@ instance (Arbitrary a) => Arbitrary (List a) where
   arbitrary =
     listGen
 
-{-- Perhaps aive, risks to never terminate --}
+{-- Perhaps naive, risks to never terminate --}
 listGen :: (Arbitrary a) => Gen (List a)
 listGen =
   oneof [return Nil, liftM2 Cons arbitrary listGen]

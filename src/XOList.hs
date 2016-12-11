@@ -36,5 +36,5 @@ instance Applicative List where
       (_, Nil) ->
         Nil
       (Cons hd tl, ys) ->
-        mappend (fmap hd ys) ((<*>) tl ys)
+        (hd <$> ys) <> (tl <*> ys)
 
