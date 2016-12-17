@@ -1,5 +1,5 @@
 import XOList
-import Control.Monad
+import Control.Applicative
 import Test.QuickCheck
 import Test.QuickCheck.Checkers
 import Test.QuickCheck.Classes
@@ -15,7 +15,7 @@ instance (Arbitrary a) => Arbitrary (List a) where
 {-- Perhaps naive, risks to never terminate --}
 listGen :: (Arbitrary a) => Gen (List a)
 listGen =
-  oneof [return Nil, liftM2 Cons arbitrary listGen]
+  oneof [return Nil, liftA2 Cons arbitrary listGen]
 
 main :: IO ()
 main = do

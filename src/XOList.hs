@@ -1,7 +1,6 @@
 module XOList where
 
 import Data.Monoid
-import Control.Monad
 
 data List a
   = Nil
