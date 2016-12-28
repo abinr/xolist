@@ -1,6 +1,7 @@
 module XOList where
 
 import Data.Monoid
+import Control.Monad
 
 data List a
   = Nil
@@ -37,3 +38,9 @@ instance Applicative List where
       (Cons hd tl, ys) ->
         (hd <$> ys) <> (tl <*> ys)
 
+instance Monad List where
+  return = pure
+  Nil >>= _ = Nil
+  Cons hd tl >>= f =
+    f hd <> (tl >>= f)
+    

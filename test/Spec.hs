@@ -10,16 +10,20 @@ instance (Eq a) => EqProp (List a) where
 
 instance (Arbitrary a) => Arbitrary (List a) where
   arbitrary =
-    listGen
+    sized listGen
 
-{-- Perhaps naive, risks to never terminate --}
-listGen :: (Arbitrary a) => Gen (List a)
-listGen =
-  oneof [return Nil, liftA2 Cons arbitrary listGen]
+listGen :: (Arbitrary a) => Int -> Gen (List a)
+listGen size =
+  case size of
+    0 ->
+      pure Nil
+    n ->
+      oneof [ pure Nil, liftA2 Cons arbitrary (listGen $ n `div` 2)]
 
 main :: IO ()
 main = do
   quickBatch $ monoid (undefined :: List String)
   quickBatch $ functor (undefined :: List (Int, String, Char))
   quickBatch $ applicative (undefined :: List (Int, String, Char))
+  quickBatch $ monad (undefined :: List (Int, String, Char))
 
